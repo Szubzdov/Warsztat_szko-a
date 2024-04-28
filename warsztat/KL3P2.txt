@@ -1,0 +1,15 @@
+Pracownicy	Szlufik-I, Szot-U		
+Klienci		Wøodarczyk-I, Sidło-U
+pojazdy		Sitek_I, Zatorski-U
+naprawy		Skucinski-I, Wiracki-U
+cennik		Nazimek-I, woś-U
+specyfikacje    Obłąk-I
+slowniki	Slusarczyk-I, rak-U 
+częsci          Sidło-I	
+Menu 		Rostocki, Szubzda
+inwentura       Sito-I
+warsztat        Styczeń-I
+
+
+
+- połaczenie z bazą w jednym miejscu

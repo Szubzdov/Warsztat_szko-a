@@ -1,0 +1,227 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: "Roboto", sans-serif;
+
+}
+header{
+    background-color: blue;
+    color:white;
+    display: flex;
+    align-items: center;
+    font-size: 250%;
+    
+}
+#nazwa{
+    padding: 50px;
+    margin-top: 50px;
+}
+header p{
+    font-style: italic;
+    font-size: large;
+}
+
+nav{
+    overflow: hidden;
+    display: flex;
+    background-color: blue;
+    color: white;
+    font-size: large;
+    box-shadow: 0px 5px 10px black;
+    position: absolute;
+    width: 100%;
+}
+nav a{
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+}
+nav a:hover{
+    background-color: white;
+    color: blue;
+}
+#under_nav{
+    height: 40px;
+    background-color: blue;
+    
+    display: flex;
+}
+#under_nav a{
+    padding: 10px;
+    /* padding-bottom: 20px; */
+    text-decoration: none;
+    color: white;
+
+}
+#under_nav a:hover{
+    background-color: white;
+    color: blue;
+}
+
+#logo img{
+    background-color: white;
+    border-radius: 20%;
+    padding: 10px;
+    margin: 200px;
+    width: 200px;
+    height: 200px;
+    box-shadow: 0px 5px 10px black;
+}
+main{
+    padding: 50px;
+    
+   
+    margin: auto;
+    /* width: 70%; */
+  
+    
+}
+@media screen and (max-width: 1500px) {
+    main {
+      width: 100%;
+      padding: 50px 0px;
+    }
+    
+  }
+.card{
+   
+    margin-bottom: 20px;
+    
+}
+.card p{
+    padding: 10px;
+}
+.card h2{
+    text-align: center;
+}
+.card table{
+    border:1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px;
+    font-size: medium;
+}
+.card thead{
+    font-weight: 700;
+    text-align: center;
+    background-color: blue;
+    color: white;
+}
+
+.card td{
+    border:1px solid black;
+    padding: 5px ;
+}
+.card img{
+    width: 100%;
+}
+.card td:last-child{
+    width: 40px;
+    text-align: center;
+}
+footer{
+    background-color: blue;
+    color: white;
+    padding: 10px;
+}
+#formularz form{
+    
+    /* padding: 20px; */
+    box-shadow: 0px 5px 5px rgb(60, 60, 60);
+    padding: 10px;
+    display: grid;
+    justify-content: center;
+
+}
+#formularz form h2{
+    text-align: center;
+    /* background: red; */
+    
+    padding: 10px;
+}
+#formularz form div{
+    /* border:1px solid black; */
+    /* border-radius: 20px; */
+   display: flex;
+   padding:10px;
+    flex-wrap: wrap;
+    align-items: center;
+   justify-content: space-around;
+   /* background-color: red; */
+    
+}
+#formularz form label{
+    /* display: flex;
+    justify-content:space-between;
+    align-items: center; */
+    margin: 10px;
+    
+   
+}
+#formularz form button{
+    background-color: blue;
+    color: white;
+    margin: 20px;
+    padding: 10px  35px;
+    border: 0;
+    font-size: medium;
+    margin: auto;
+
+}
+
+#formularz form label input,select{
+    padding:5px;
+    min-width: 300px
+   ;
+   border:0;
+   border-bottom: 1px solid black;
+    
+}
+
+#tablica_wynikow{
+    /* max-width:90%; */
+    padding: 10px;
+    width:100%;
+    
+    box-shadow: 0px 5px 5px rgb(60, 60, 60);
+}
+#tablica_wynikow h2{
+    text-align: center;
+    /* background: red; */
+    padding: 10px;
+}
+#tablica_wynikow table{
+    border: 1px solid black;
+    width: 100%;
+    border-collapse: collapse;
+}
+#tablica_wynikow td{
+    border-top: 1px solid black;
+    padding: 5px;
+}
+#tablica_wynikow tbody tr:hover{
+    background-color: blue;
+    color: white;
+}
+#formularz form table {
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+#formularz form table tbody{
+    /* overflow-y: auto; */
+
+}
+#formularz form table tr{
+    margin-bottom: 10px;
+    
+}
+#formularz form table td input{
+    padding:5px;
+        min-width: 300px
+       ;
+       border:0;
+       border-bottom: 1px solid black;
+
+}

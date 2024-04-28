@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dodaj nowy rekord do tabeli Naprawa</title>
+<link rel="stylesheet" href="../styles/style.css">
+</head>
+<body>
+    <nav>    
+        <a href="../index.html">Główna</a>     
+        <a href="../klienci/in_kli.php">Klienci</a>       
+        <a href="./naprawy/formularz.php">Naprawy</a>
+
+        <a href="./pracownicy/form_pracownicy_insert.php">Pracownicy</a> 
+        <a href="./specyfikacje/index.php">Specyfikacje</a>    
+        <a href="../pojazdy/pojazdy.php">Pojazdy</a>  
+    </nav>
+    <header>
+        <div>
+            <h2 id="nazwa">Schema <p>//dodaj schema</p></h2>
+
+        </div>
+        
+    </header>
+    <main style="width: 80%;">
+        <div id="formularz">
+        <form action="formularz.php" method="post">
+            <div>
+                <label for="klienci_id">
+                    <p>ID Klienta:</p>
+                    <select id="klienci_id" name="klienci_id" required>
+                        <option value="">Wybierz ID Klienta:</option>
+                        
+                    </select>
+                </label>
+        
+        <label for="pojazdy_vin">
+            <p>Numer VIN pojazdu:</p>
+            <select id="pojazdy_vin" name="pojazdy_vin" required>
+                <option value="">Wybierz Numer VIN:</option>
+                
+            </select>
+        </label>
+        
+        <label for="data_od">
+            <p>Data rozpoczęcia naprawy:</p>
+            <input type="date" id="data_od" name="data_od" required><br>
+        </label>
+        <label for="data_do">
+            <p>Przewidywana data zakończenia naprawy:</p>
+            <input type="date" id="data_do" name="data_do" required><br>
+        </label>
+        <label for="uwagi">
+            <p>Uwagi:</p>
+            <textarea id="uwagi" name="uwagi" rows="5" cols="100" required></textarea><br><br>
+        </label>
+    </div>
+        <button type="submit">Dodaj</button>
+        </form>
+        </div>
+        <div id="tablica_wynikow">
+            <h2>Tabela Klienci</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <td>Klient ID</td>
+                        <td>VIN</td>
+                        <td>Data od</td>
+                        <td>Data do</td>
+                        <td>Uwagi</td>
+                       
+                       
+                    </tr>
+
+                </thead>
+                <tbody>
+                    
+                        <tr>
+                            <td>Data do</td>
+                        <td>Uwagi</td>
+                            
+                        </tr>
+                    
+
+                </tbody>
+            </table>
+        </div>
+    </main>
+
+
+
+
+
+</body>
+</html>
