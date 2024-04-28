@@ -7,10 +7,31 @@
 <body>
 
 	<?php
+		 ini_set('display_errors', '0');
+		$baza = false;
 		require('../conn.php');
 
     	
 		$polaczenie = mysqli_connect($servername, $username, $password, $dbname);
+
+		if(!$polaczenie){
+			$conn_err = mysqli_connect_errno();
+			switch($conn_err) {
+			case 1049:
+				$e = "Nieprawidłowa nazwa bazy danych - $dbname";
+				break;
+			case 2002:
+				$e = "Nieprawidłowa nazwa hosta - $servername";
+				break;
+			case 1045:
+				$e = "Nieprawidłowe hasło";
+				break;
+			default:
+				$e = "Błąd " . mysqli_connect_error();
+			break;
+		}
+		} else {
+			$baza = true;
 		
 		if( isset($_POST['nazwa']) 	   && 
 			isset($_POST['symbol'])    && 
@@ -37,6 +58,7 @@
 			echo "Część $nazwa o symbolu $symbol zostało dodana do bazy danych";
 		}
 		mysqli_close($polaczenie);
+	}
 	?>
 </body>
 </html>

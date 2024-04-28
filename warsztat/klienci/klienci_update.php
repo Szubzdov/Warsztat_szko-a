@@ -24,18 +24,33 @@
 
     </div>
 		<?php
-			$polaczenie = mysqli_connect('localhost', 'root', '', 'warsztat');
+		    ini_set('display_errors', '0');
+			$baza = false;
+			require('../conn.php');
+			$polaczenie = mysqli_connect($servername, $username, $password, $dbname);
 			
-			if($polaczenie == FALSE){
-				echo 'Nie udało się połaczyć z bazą danych! '. mysqli_connect_error();
+			if(!$polaczenie){
+				$conn_err = mysqli_connect_errno();
+				switch($conn_err) {
+				case 1049:
+					$e = "Nieprawidłowa nazwa bazy danych - $dbname";
+					break;
+				case 2002:
+					$e = "Nieprawidłowa nazwa hosta - $servername";
+					break;
+				case 1045:
+					$e = "Nieprawidłowe hasło";
+					break;
+				default:
+				$e = "Błąd " . mysqli_connect_error();
+				break;
 			}
-			
-			
-			
-			if( isset($_POST['submit'])  ){
+			} else {
+				$baza = true; 
+				if( isset($_POST['submit'])){
 				
 				
-				if( isset($_POST['id']) ) {
+				if( isset($_POST['id'])) {
 					
 					$id_klineta = $_POST['id'];
 					
@@ -81,20 +96,18 @@
 
 					$wynik = mysqli_query($polaczenie, $sql);
 					
-					
 				}else{
 					echo 'Należy usupełnić wszystkie dane!';
 				}
-				
-				
 			}
-
-			
 			$rozlaczenie = mysqli_close($polaczenie);
+		}
 		?>
 	
-	
 	<main>
+	<?php if(!$baza): ?>
+				<h2><?php echo $e; ?></h2>
+			<?php else: ?>
 	<div id="formularz">
 		<form method="post" action="klienci_update.php">
 		<div>
@@ -173,7 +186,11 @@
 		
 		<button type="submit" name="submit">Zaktualizuj</button>
 		</form>
-		</div>
-	
+	</div>
+	<?php endif; ?>
+	</main>
+	<footer>
+        <p>&copy Klasa 3R 2024</p>
+    </footer>
 	</body>
-<html>
+	<html>

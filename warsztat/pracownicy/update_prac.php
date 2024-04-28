@@ -1,14 +1,39 @@
 <?php
-    $id_conn = mysqli_connect('localhost','root','','warsztat');
-    $sql = "SELECT * FROM pracownicy";
-    $sql_q = mysqli_query($id_conn , $sql);
+	ini_set('display_errors', '0');
+	$baza = false;
+	require('../conn.php');
+
+    $id_conn = mysqli_connect($servername,$username, $password, $dbname);
+
+    if(!$id_conn){
+        $conn_err = mysqli_connect_errno();
+        switch($conn_err) {
+        case 1049:
+            $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+            break;
+        case 2002:
+            $e = "Nieprawidłowa nazwa hosta - $servername";
+            break;
+        case 1045:
+            $e = "Nieprawidłowe hasło";
+            break;
+        default:
+            $e = "Błąd " . mysqli_connect_error();
+        break;
+    }
+    } else {
+        $baza = true;
+        
+        $sql = "SELECT * FROM pracownicy";
+        $sql_q = mysqli_query($id_conn , $sql);
+    }    
 ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update</title>
+    <title>Update Pracownicy</title>
     <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
@@ -28,6 +53,9 @@
     </div>
     <main>
         <div id="formularz">
+        <?php if(!$baza): ?>
+                <h2><?php echo $e; ?></h2>
+            <?php else: ?>
             <form action="up_prac.php" method="post">
                 <div>
                     <label for="kogo">
@@ -46,7 +74,11 @@
                 <button type="submit">Dodaj</button>
             </form>
             </div>
+            <?php endif; ?>
     </main>
+    <footer>
+        <p>&copy Klasa 3R 2024</p>
+    </footer>
 </body>
 </html>
 <?php mysqli_close($id_conn); ?>

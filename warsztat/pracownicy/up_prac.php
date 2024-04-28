@@ -1,5 +1,6 @@
 <?php
-    $id_conn = mysqli_connect('localhost','root','','warsztat');
+    require('../conn.php');
+    $conn = mysqli_connect($servername,$username, $password, $dbname);
     $id = $_POST['id'] ?? 1; // JAK CHCESZ TO USUŃ DEAFULTA
 
 

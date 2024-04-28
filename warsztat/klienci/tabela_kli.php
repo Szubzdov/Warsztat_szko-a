@@ -1,16 +1,30 @@
 <?php 
+    ini_set('display_errors', '0');
+    $baza = false;
+
     require('../conn.php');
-
-    
-    try{
         $conn = new mysqli($servername, $username, $password, $dbname);
-        $sql = "SELECT * FROM klienci";
-        $result = $conn->query($sql);
-        $baza = true;
-    }catch(e){
-
-        $baza = false;
+        if ($conn->connect_error) {
+            $conn_err = mysqli_connect_errno();
+            switch($conn_err) {
+            case 1049:
+                $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+                break;
+            case 2002:
+                $e = "Nieprawidłowa nazwa hosta - $servername";
+                break;
+            case 1045:
+                $e = "Nieprawidłowe hasło";
+                break;
+            default:
+            $e= "Błąd " . mysqli_connect_error();
+            break;
     }
+} else {
+    $baza = true;      
+    $sql = "SELECT * FROM klienci";
+    $result = $conn->query($sql);
+}
     
 ?>
 <!DOCTYPE html>
@@ -35,18 +49,21 @@
         <a href="tabela_kli.php">Tabela</a> 
         <a href="in_kli.php">Dodaj</a> 
         <a href="klienci_update.php">Aktualizuj</a> 
-
     </div>
+
     <main>
-    <div id="tablica_wynikow">
+        <?php if(!$baza): ?>
+                <h2><?php echo $e; ?></h2>
+            <?php else: ?>
+        <div id="tablica_wynikow">
             <h2>Tabela Klienci</h2>
             <table>
                 <thead>
                     <tr>
                         <td>ID</td>
                         <td>Nazwisko</td>
-                        <td>Imie</td>
-                        <td>Drugie imie</td>
+                        <td>Imię</td>
+                        <td>Drugie imię</td>
                         <td>Data ur.</td>
                         <td>Pesel</td>
                         <td>Ulica</td>
@@ -54,7 +71,7 @@
                         <td>Kod pocztowy</td>
                         <td>Miasto</td>
                         <td>Kraj</td>
-                        <td>Narodowosc</td>
+                        <td>Narodowość</td>
                         <td>Płeć</td>
                         <td>Telefon</td>
                         <td>Email</td>
@@ -64,7 +81,7 @@
 
                 </thead>
                 <tbody>
-                    <?php if($baza === true){?>
+                    <?php ?>
                         <?php while($r = $result->fetch_assoc()) { ?>
                             <tr>
                             <td><?=$r['id']?></td>
@@ -87,12 +104,13 @@
                             </tr>
                         <?php } ?>
 
-                    <?php }?>
+                    <?php ?>
 
                 </tbody>
             </table>
-           
+            
         </div>
+        <?php endif; ?>
     </main>
     <footer>
         <p>&copy Klasa 3R 2024</p>

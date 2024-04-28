@@ -2,7 +2,6 @@
 function addClient($nazwisko, $imie, $imie2, $data_ur, $pesel, $ulica, $nr_d, $kod_pocz, $miasto, $kraj, $narodowosc, $plec, $nr_tel, $email, $nr_dow, $wydany)
 {
     require('../conn.php');
-
     
     $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -10,8 +9,8 @@ function addClient($nazwisko, $imie, $imie2, $data_ur, $pesel, $ulica, $nr_d, $k
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
-
     
+
     $stmt = $conn->prepare("INSERT INTO klienci (nazwisko, imie, imie2, data_ur, pesel, ulica, nr_d, kod_pocz, miasto, kraj, narodowosc, plec, nr_tel, email, nr_dow, wydany) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
     $stmt->bind_param("ssssssssssssssss", $nazwisko, $imie, $imie2, $data_ur, $pesel, $ulica, $nr_d, $kod_pocz, $miasto, $kraj, $narodowosc, $plec, $nr_tel, $email, $nr_dow, $wydany);
 
@@ -63,4 +62,6 @@ $nr_dow = $_POST['nr_dow'];
 $wydany = $_POST['wydany'];
 
 addClient($nazwisko, $imie, $imie2, $data_ur, $pesel, $ulica, $nr_d, $kod_pocz, $miasto, $kraj, $narodowosc, $plec, $nr_tel, $email, $nr_dow, $wydany);
+
+
 ?>

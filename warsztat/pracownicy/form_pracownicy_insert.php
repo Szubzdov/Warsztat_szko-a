@@ -9,8 +9,30 @@
 
 <?php
 
+ini_set('display_errors', '0');
+$baza = false;
+require('../conn.php'); // zaimportowanie pliku do połączenia
+$id_conn = mysqli_connect($servername,$username, $password, $dbname);
 
-include('conn.php'); // zaimportowanie pliku do połączenia
+if(!$id_conn){
+    $conn_err = mysqli_connect_errno();
+    switch($conn_err) {
+    case 1049:
+        $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+        break;
+    case 2002:
+        $e = "Nieprawidłowa nazwa hosta - $servername";
+        break;
+    case 1045:
+        $e = "Nieprawidłowe hasło";
+        break;
+    default:
+        $e = "Błąd " . mysqli_connect_error();
+    break;
+}
+} else {
+    $baza = true;
+
 
 $sql_stan = "SELECT * FROM stanowiska;";
 $query_stan = mysqli_query($id_conn, $sql_stan);
@@ -56,6 +78,7 @@ if(isset($_POST['submit'])){
     exit;
 
 }
+}
 
 ?>
 <body>
@@ -73,8 +96,12 @@ if(isset($_POST['submit'])){
         <a href="update_prac.php">Aktualizuj</a>  
 
     </div>
-    <main style="padding:0px;display:block">
+    <!-- <main style="padding:0px;display:block"> -->
+    <main>
         <div id="formularz">
+        <?php if(!$baza): ?>
+				<h2><?php echo $e; ?></h2>
+			<?php else: ?>
         <form action="form_pracownicy_insert.php" method="post">
         <h2>Formularz Pracownicy</h2>
             <table>
@@ -120,7 +147,10 @@ if(isset($_POST['submit'])){
             
             </form>
         </div>    
-                
+        <?php endif; ?>
     </main>
+    <footer>
+        <p>&copy Klasa 3R 2024</p>
+    </footer>
 </body>
 </html>

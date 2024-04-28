@@ -1,16 +1,38 @@
-<?php 
+<?php
+    ini_set('display_errors', '0');
+    $baza = false;
     require('../conn.php');
-
     $conn = new mysqli($servername, $username, $password, $dbname);
+
+    if ($conn->connect_error) {
+        $conn_err = mysqli_connect_errno();
+        switch($conn_err) {
+        case 1049:
+            $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+            break;
+        case 2002:
+            $e = "Nieprawidłowa nazwa hosta - $servername";
+            break;
+        case 1045:
+            $e = "Nieprawidłowe hasło";
+            break;
+        default:
+            $e = "Błąd " . mysqli_connect_error();
+        break;
+}
+} else {
+    $baza = true;
     $sql = "SELECT * FROM pracownicy";
     $results = $conn->query($sql);
+
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dodaj </title>
+    <title>Dodaj Pracownicy</title>
     <!-- <title>Warsztat ZSI</title> -->
     <link rel="stylesheet" href="../styles/style.css">
 </head>
@@ -29,7 +51,10 @@
         <a href="update_prac.php">Aktualizuj</a>  
 
     </div>
-    <main style="width:100%;margin:0px;padding:0px">
+    <main style="">  
+        <?php if(!$baza): ?>
+                    <h2><?php echo $e; ?></h2>
+                <?php else: ?>
     <div id="tablica_wynikow"  >
             <h2>Tabela Klienci</h2>
             <div style="overflow:auto">
@@ -105,9 +130,10 @@
 
                 </tbody>
             </table> 
-            </div> 
-        </div>   
-    </main>
+        </div> 
+    </div>
+    <?php endif; ?>
+</main>
     <footer>
         <p>&copy Klasa 3R 2024</p>
     </footer>

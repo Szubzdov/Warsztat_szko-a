@@ -1,26 +1,44 @@
 <?php
-    
+   ini_set('display_errors', '0');
+    $baza = false;
 // Sprawdzenie, czy formularz został wysłany
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Sprawdzenie, czy wszystkie wymagane pola zostały wypełnione
-    if (isset($_POST["klienci_id"]) && isset($_POST["pojazdy_vin"]) && isset($_POST["data_od"]) && isset($_POST["data_do"]) && isset($_POST["uwagi"])) {
-        // Pobranie danych z formularza
-        $klienci_id = $_POST["klienci_id"];
-        $pojazdy_vin = $_POST["pojazdy_vin"];
-        $data_od = $_POST["data_od"];
-        $data_do = $_POST["data_do"];
-        $uwagi = $_POST["uwagi"];
 
-        // Połączenie z bazą danych
-        require('../conn.php');
-        $conn = new mysqli($servername,$username, $password, $dbname);
-        if ($conn->connect_error) {
-            die("Błąd połączenia: " . $conn->connect_error);
-        }
+// Połączenie z bazą danych
+require('../conn.php');
+$conn = new mysqli($servername,$username, $password, $dbname);
 
+if ($conn->connect_error) {
+    $baza = false;
+    $conn_err = mysqli_connect_errno();
+    switch($conn_err) {
+        case 1049:
+            $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+            break;
+            case 2002:
+                $e = "Nieprawidłowa nazwa hosta - $servername";
+                break;
+                case 1045:
+                    $e = "Nieprawidłowe hasło";
+                    break;
+                    default:
+                    $e = "Błąd " . mysqli_connect_error();
+                    break;
+                }
+            } else {
+                $baza = true;
+                if ($_SERVER["REQUEST_METHOD"] == "POST") {
+                    // Sprawdzenie, czy wszystkie wymagane pola zostały wypełnione
+                    if (isset($_POST["klienci_id"]) && isset($_POST["pojazdy_vin"]) && isset($_POST["data_od"]) && isset($_POST["data_do"]) && isset($_POST["uwagi"])) {
+                        // Pobranie danych z formularza
+                        $klienci_id = $_POST["klienci_id"];
+                        $pojazdy_vin = $_POST["pojazdy_vin"];
+                        $data_od = $_POST["data_od"];
+                        $data_do = $_POST["data_do"];
+                        $uwagi = $_POST["uwagi"];           
         // Zapytanie SQL do dodania nowego rekordu do tabeli Naprawa
         $sql = "INSERT INTO naprawa (klienci_id, pojazdy_vin, data_od, data_do, uwagi) VALUES ('$klienci_id', '$pojazdy_vin', '$data_od', '$data_do', '$uwagi')";
-
+    }
+        
         if ($conn->query($sql) === TRUE) {
             // Komunikat o sukcesie, gdy rekord został dodany poprawnie
             echo "Nowy rekord został poprawnie dodany do tabeli Naprawa.";
@@ -33,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->close();
     } else {
         // Komunikat o błędzie, gdy nie wszystkie wymagane pola zostały wypełnione
-        echo "Wypełnij wszystkie wymagane pola.";
+        // echo "Wypełnij wszystkie wymagane pola.";
     }
 }
 ?>
@@ -61,6 +79,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     </div>
     <main>
+        <?php if(!$baza): ?>
+                <h2><?php echo $e; ?></h2>
+            <?php else: ?>
         <div id="formularz">
         <form action="formularz.php" method="post">
             <div>
@@ -129,12 +150,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button type="submit">Dodaj</button>
         </form>
         </div>
-        
+        <?php endif; ?>
     </main>
 
-
-
-
-
 </body>
+<footer>
+        <p>&copy Klasa 3R 2024</p>
+    </footer>
 </html>

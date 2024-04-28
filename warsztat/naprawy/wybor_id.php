@@ -1,39 +1,58 @@
 <?php
 // Połączenie z bazą danych
+ini_set('display_errors', '0');
+$baza = false;
 require('../conn.php');
 
 $conn = new mysqli($servername, $username, $password, $dbname);
+
 if ($conn->connect_error) {
-    die("Błąd połączenia: " . $conn->connect_error);
+    $conn_err = mysqli_connect_errno();
+    switch($conn_err) {
+    case 1049:
+        $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+        break;
+    case 2002:
+        $e = "Nieprawidłowa nazwa hosta - $servername";
+        break;
+    case 1045:
+        $e = "Nieprawidłowe hasło";
+        break;
+    default:
+        $e = "Błąd " . mysqli_connect_error();
+    break;
 }
-
-// Sprawdzenie, czy zostało przekazane id rekordu do edycji
-if (isset($_GET['id']) && isset($_GET['submit'])) {
-    $id = $_GET['id'];
-
-    // Pobranie danych rekordu do edycji
-    $sql = "SELECT * FROM naprawa WHERE id = $id";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        header("Location: aktualizacja.php?id='$id'") ;
-        
-    } else {
-        // echo "Nie znaleziono rekordu o podanym ID.";
-        echo '<script>alert("Nie znaleziono rekordu o podanym ID.")</script>';
-        
-    }
 } else {
+    $baza = true;
     
-    //  echo "Brak ID rekordu do edycji.";
-}  
-?>
+    // Sprawdzenie, czy zostało przekazane id rekordu do edycji
+    if (isset($_GET['id']) && isset($_GET['submit'])) {
+        $id = $_GET['id'];
+        
+        // Pobranie danych rekordu do edycji
+        $sql = "SELECT * FROM naprawa WHERE id = $id";
+        $result = $conn->query($sql);
+        
+        if ($result->num_rows > 0) {
+            header("Location: aktualizacja.php?id='$id'") ;
+            
+        } else {
+            // echo "Nie znaleziono rekordu o podanym ID.";
+            echo '<script>alert("Nie znaleziono rekordu o podanym ID.")</script>';
+            
+        }
+    } else {
+        
+        //  echo "Brak ID rekordu do edycji.";
+    }  
+}
+    ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Aktualizuj</title>
     <link rel="stylesheet" href="../styles/style.css">
 </head>
 <body>
@@ -52,6 +71,9 @@ if (isset($_GET['id']) && isset($_GET['submit'])) {
 
     </div>
     <main>
+    <?php if(!$baza): ?>
+                <h2><?php echo $e; ?></h2>
+            <?php else: ?>
         <div id="formularz">
             <form action="wybor_id.php" method="get">
                 <div>
@@ -66,7 +88,10 @@ if (isset($_GET['id']) && isset($_GET['submit'])) {
                 <button type="submit">Szukaj</button>
             </form>
         </div>
-    
+        <?php endif; ?>
     </main>
+    <footer>
+        <p>&copy Klasa 3R 2024</p>
+    </footer>
 </body>
 </html>

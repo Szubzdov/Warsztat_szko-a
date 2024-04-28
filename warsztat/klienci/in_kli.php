@@ -1,9 +1,32 @@
 <?php 
+    ini_set('display_errors', '0');
     require('../conn.php');
-
+    
+    $baza = false;
     $conn = new mysqli($servername, $username, $password, $dbname);
+
+    
+    if ($conn->connect_error) {
+        $conn_err = mysqli_connect_errno();
+        switch($conn_err) {
+        case 1049:
+            $e = "Nieprawidłowa nazwa bazy danych - $dbname";
+            break;
+        case 2002:
+            $e = "Nieprawidłowa nazwa hosta - $servername";
+            break;
+        case 1045:
+            $e = "Nieprawidłowe hasło";
+            break;
+        default:
+        $e= "Błąd " . mysqli_connect_error();
+        break;
+}
+} else {
+    $baza = true;      
     $sql = "SELECT * FROM klienci";
     $result = $conn->query($sql);
+     }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,6 +53,9 @@
 
     </div>
     <main>
+        <?php if(!$baza): ?>
+            <h2><?php echo $e; ?></h2>
+        <?php else: ?>
         <div id="formularz">
             <form action="dodaj_kli.php" method="post">
                 <h2>Formularz Klienci</h2>
@@ -121,8 +147,7 @@
                 
             </form>
         </div>
-        
-
+        <?php endif; ?>
     </main>
     <footer>
         <p>&copy Klasa 3R 2024</p>
